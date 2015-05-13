@@ -1,13 +1,6 @@
 import tools as tools_mod
 import login
-
-def get_unused_hypervisors(env):
-    #Returns list of unused hypervisors (no_vms = 0)
-    return tools_mod.search_dictionaries("no_vms", 0, env["hosts"])
-
-def get_used_hypervisors(env):
-    #Return list of used hypervisors (no_vms > 0)
-    return [element for element in env["hosts"] if element["no_vms"] > 0]
+import os
 
 def consumption_function_linear(host):
     if host["no_vms"] > 0:
@@ -90,3 +83,11 @@ def get_hypervisors():
 				"consumption_idle":consumption_idle,
 				"consumption_max":consumption_max})
     return hypervisors
+
+def turn_off_host(host):
+    cmd = 'ssh root@' + host["ip"] + ' "shutdown -h now"'
+    os.system(cmd)
+
+def turn_on_host():
+    cmd='etherwake -i em1 ' + host["mac"]
+    os.system(cmd)

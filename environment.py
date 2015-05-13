@@ -4,6 +4,14 @@ import host as host_mod
 import tools as tools_mod
 import virtual_machine as vm_mod
 
+def get_unused_hypervisors(env):
+    #Returns list of unused hypervisors (no_vms = 0)
+    return tools_mod.search_dictionaries("no_vms", 0, env["hosts"])
+
+def get_used_hypervisors(env):
+    #Return list of used hypervisors (no_vms > 0)
+    return [element for element in env["hosts"] if element["no_vms"] > 0]
+
 def print_env(env):
     print "Printing VM placement:"
     vms = env["vms"]
