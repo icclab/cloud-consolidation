@@ -1,0 +1,19 @@
+<html>
+<head>
+    <title>Cloud Consolidation Visualisation Tool</title>
+    <link href="{{ url_for('static', filename='c3.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css" />
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="{{ url_for('static', filename='c3.min.js') }}"></script>
+    <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <h1>Load Management Monitoring</h1>
+  <ul class=entries>
+  {% for cons in consolidations %}
+    <li><a href="{{ url_for('show',id=cons['id'])}}">{{ cons }}</a>
+  {% endfor %}
+  </ul>
+
+</body>
+</html>

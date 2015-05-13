@@ -1,0 +1,115 @@
+<html>
+<head>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<link href="{{ url_for('static', filename='c3.min.css') }}" rel="stylesheet" type="text/css" />
+<script src="{{ url_for('static', filename='c3.min.js') }}"></script>
+<script src={{ url_for('static', filename='biPartite.js') }}></script>
+<link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<div id="barchart"></div>
+<script>
+/*var bardata = {
+            host1: [30, 20],
+            host2: [200, 130],
+            host3: [300, 200]
+            }*/
+
+var bardata = {{ bardata|safe }}
+
+var hosts = d3.keys(bardata).map(function(d){ return d; });
+
+var chart = c3.generate({
+    bindto: '#barchart',
+    data: {
+	json: bardata,
+        type: 'bar',
+	labels: true,
+        groups: [hosts]
+    },
+    grid: {
+        y: {lines: [{value:0}]}
+    },
+    axis: {
+	x: {
+	    tick: {
+		format: function(d){return ['before', 'after'][d];}
+		//type: 'category',
+		//categories: ['before','after']
+	    }
+	}
+    }
+
+})
+</script>
+
+
+<h1>Consolidation Action Overview</h1>
+<h2>System Energy Prediction Model</h2>
+
+
+<div id="piechart1" style="width:500px;"></div>
+<div id="piechart2" style="width:500px;"></div>
+<script>
+var piedata1 = {{ piedata1|safe }}
+var chart = c3.generate({
+    bindto:'#piechart1',
+    data: {
+        json: piedata1,
+        type : 'pie',
+        onclick: function (d, i) { console.log("onclick", d, i); },
+        onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+        onmouseout: function (d, i) { console.log("onmouseout", d, i); },
+	units: true
+    }
+});
+</script>
+
+<script>
+var piedata2 = {{ piedata2|safe }}
+var chart = c3.generate({
+    bindto:'#piechart2',
+    data: {
+        json: piedata2,
+        type : 'pie',
+        onclick: function (d, i) { console.log("onclick", d, i); },
+        onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+        onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+    }
+});
+</script>
+
+    <h2>Actions Taken</h2>
+    <script>
+
+    /*var mig_data =
+    [['node-x','node-4',2],
+    ['node-x','node-3',2],
+    ['node-x','node-5',2],
+    ['node-x','node-6',2],
+    ['node-y','node-3',1],
+    ['node-y','node-3',1],
+    ['node-z','node-3',1],
+    ['node-z','node-4',1],
+    ['node-z','node-5',1],
+    ['node-z','node-6',1],
+    ];*/
+
+    var mig_data = {{ actions|safe }};
+
+    var width = 640, height = 300, margin ={b:0, t:40, l:170, r:50};
+
+    var svg = d3.select("body")
+	.append("svg").attr('width',width).attr('height',(height+margin.b+margin.t))
+	.append("g").attr("transform","translate("+ margin.l+","+margin.t+")");
+
+    var data = [
+	{data:bP.partData(mig_data,2), id:'migrations', header:["Migration from","Migration to"]},
+    ];
+
+    bP.draw(data, svg);
+    </script>
+
+    </body>
+    </html>
