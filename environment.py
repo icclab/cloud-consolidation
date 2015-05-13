@@ -113,7 +113,7 @@ def create_random_environment(no_hosts, no_vms):
                         #"vcpus":8,
                         "ram":server_vcpus * 1024,
                         "util_abs":server_util_abs})
-    print vms, hypervisors
+    #print vms, hypervisors
     host_mod.compute_pm_util(vms, hypervisors)
     environment["vms"] = vms
     environment["hosts"] = hypervisors

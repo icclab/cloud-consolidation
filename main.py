@@ -5,7 +5,6 @@ import host as host_mod
 import cons_core as cc_mod
 import argparse
 
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', help='input file containing environment specs', nargs=1)
@@ -33,6 +32,7 @@ def main():
 
     actions = cc_mod.split(env)
     print "----------------Evironment after split----------------------"
+    env_mod.print_env(env)
     print "No migrations: " + str(len(actions))
     #mig_mod.print_actions(actions)
     #env_mod.print_env(env)
@@ -45,6 +45,7 @@ def main():
 
     actions = cc_mod.consolidate(env)
     print "----------------Environment after consolidation-------------"
+    env_mod.print_env(env)
     print "No migrations: " + str(len(actions))
     #mig_mod.print_actions(actions)
     #env_mod.print_env(env)

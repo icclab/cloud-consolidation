@@ -9,15 +9,18 @@ def get_used_hypervisors(env):
     #Return list of used hypervisors (no_vms > 0)
     return [element for element in env["hosts"] if element["no_vms"] > 0]
 
+def consumption_function_linear(host):
+    if host["no_vms"] > 0:
+        return host["consumption_idle"] + ((host["consumption_max"] - host["consumption_idle"]) * host["util"] / host["capacity"])
+    else:
+        return 0.0
+ 
 def compute_pm_consumption(hosts):
     #vms = env["vms"]
     #hosts = env["hosts"]
     for host in hosts:
-        if host["no_vms"] > 0:
-            host["power_consumption"] = host["consumption_idle"] + ((host["consumption_max"] - host["consumption_idle"]) * host["util"] / host["capacity"])
-        else:
-            host["power_consumption"] = 0.0
-
+	 host["power_consumption"] = consumption_function_linear(host) 
+        
 def clear_hypervisors_util(hosts):
     for host in hosts:
         host["util"] = 0.0
