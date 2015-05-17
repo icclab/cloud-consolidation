@@ -16,6 +16,11 @@ def get_vm_cpu_util(ceilometer, vm_id):
     #print vm_id + " " + str(avg_cpu_util)
     return avg_cpu_util
 
+def get_vm(vm_id):
+    nova = login.get_nova_client()
+    print vm_id
+    return nova.servers.find(id=vm_id)
+
 def get_vms():
     nova = login.get_nova_client()
     ceilometer = login.get_ceilometer_client()

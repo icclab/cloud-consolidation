@@ -1,3 +1,5 @@
+import virtual_machine as vm_mod
+
 def print_actions(actions):
     print "Printing actions taken:"
     for action in actions:
@@ -13,3 +15,8 @@ def migrate_sim(vm, src_host, dest_host):
     vm["host"] = dest_host["id"]
     #vm["dest_host"] = dest_host["id"]
     #print vm["id"] + ": " + src_host["id"] + " -> " + dest_host["id"]
+
+def exec_migration(action):
+    vm = vm_mod.get_vm(action["vm_id"])
+    if(action["action"]=="live-migrate"):
+	vm.live_migrate(host=action["dst"])
