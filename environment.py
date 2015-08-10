@@ -33,6 +33,16 @@ def compute_env_consumption(env):
             total = total + host["power_consumption"]
     return total
 
+def print_env_available_res(env):
+    for host in env["hosts"]:
+	avail = host_mod.compute_pm_available_res(host)
+	print host["id"]+" available absolute value: "+str(avail)
+
+def print_env_available_res_rel(env):
+    for host in env["hosts"]:
+	avail = host_mod.compute_pm_available_res(host) / host["capacity"] * 100
+	print host["id"]+" available relative value: "+str(avail)+"percent"
+
 def get_environment():
     environment = {}
     vms = vm_mod.get_vms()

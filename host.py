@@ -28,6 +28,9 @@ def compute_pm_util(vms, hosts):
          host["no_vms"] = host["no_vms"] + 1
          host["ram_used"] = host["ram_used"] + vm["ram"]
 
+def compute_pm_available_res(host):
+    return host["capacity"] - host["util"]
+
 def compute_pm_util_avg_abs(env):
     compute_pm_util(env["vms"], env["hosts"])
     cpu_util_sum = 0.0
