@@ -21,7 +21,8 @@ def consolidate(env):
             for dest_host in reversed(sorted_hosts):
                 if asc < dsc:
                     #found suitable host
-                    if (dest_host["util"] + vm["util_abs"] <= dest_host["capacity"]):
+                    if dest_host["util"] + vm["util_abs"] <= dest_host["capacity"] and \
+                       dest_host["ram_used"] + vm["ram"] <= dest_host["ram_capacity"]:
                         mig_mod.migrate_sim(vm, host, dest_host)
                         actions.append({    "action":"live-migrate",
                                             "vm_id":vm["id"],
