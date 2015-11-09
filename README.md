@@ -1,6 +1,6 @@
 # Cloud Consolidation Tool
 
-Simple cloud consolidation (simulation) tool for analysis of datacenteris energy consumption. Implemented consolidation algorithm computes close-to-optimum energy efficient VM placement across active cluster increasing physical hosts CPU utilization using VM live migration mechanism. Algorithm provides list of actions to be taken that can be later trigerred by DC operator.
+Simple cloud consolidation (simulation) tool for analysis of datacenters energy consumption. Implemented consolidation algorithm computes close-to-optimum energy efficient VM placement across active cluster increasing physical hosts CPU utilization using VM live migration mechanism. Algorithm provides list of actions to be taken that can be later trigerred by DC operator.
 
 Please note algorithm only provides a list of recommended migrations but DOES NOT actually trigger the migrations by default.
 
@@ -48,6 +48,12 @@ python setup.py
 
 ### Run optimization
 
+Source your OpenStack credentials:
+
+```
+source admin.rc
+```
+
 Browse to consolidation application directory:
 
 ```
@@ -66,20 +72,19 @@ To optimize VM placement specified in input file (```input_file.txt```) run:
 python main.py -f input_file.txt
 ```
 
-To optimize VM placement of you running OpneStack cluster run:
+To optimize VM placement of you running OpenStack cluster run:
 
 ```
-source admin.rc
 python main.py
 ```
 
 ### Browse results
 
-Runs Flask application:
+Run Flask application:
 
 ```
 cd src/web/
 python vis_app.py
 ```
 
-Point your browser to ```http://localhost:5000```
+Point your browser to ```http://localhost:5000```.
