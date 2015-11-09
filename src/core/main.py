@@ -26,7 +26,7 @@ def main():
         env = env_mod.get_environment()
 
     ts = dbops.get_ts_local()
-    # cons_id = dbops.save_cons_rec(ts, True)
+    cons_id = dbops.save_cons_rec(ts, True)
     actions = []
 
     print "----------------Environment---------------------------------"
@@ -36,7 +36,7 @@ def main():
     print len(env_mod.get_unused_hypervisors(env))
     print len(env_mod.get_used_hypervisors(env))
     print host_mod.compute_pm_util_avg_rel(env)
-    # dbops.save_environment(cons_id, ts, env, "init", actions)
+    dbops.save_environment(cons_id, ts, env, "init", actions)
 
     actions = cc_mod.split(env)
     env_mod.print_env_available_res(env)
@@ -51,7 +51,7 @@ def main():
     print host_mod.compute_pm_util_avg_rel(env)
     print len(env_mod.get_unused_hypervisors(env))
     print len(env_mod.get_used_hypervisors(env))
-    # dbops.save_environment(cons_id, ts, env, "split", actions)
+    dbops.save_environment(cons_id, ts, env, "split", actions)
 
     actions = cc_mod.consolidate(env)
     env_mod.print_env_available_res(env)
@@ -66,7 +66,7 @@ def main():
     print host_mod.compute_pm_util_avg_rel(env)
     print len(env_mod.get_unused_hypervisors(env))
     print len(env_mod.get_used_hypervisors(env))
-    # dbops.save_environment(cons_id, ts, env, "cons", actions)
+    dbops.save_environment(cons_id, ts, env, "cons", actions)
 
 if __name__ == "__main__":
     main()

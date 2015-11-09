@@ -4,6 +4,7 @@ import time
 import calendar
 from contextlib import closing
 import os
+import datetime
 DATABASE = '/tmp/lmt.db'
 
 
@@ -11,7 +12,7 @@ def get_ts_ceilometer():
     ts = -1
     ceilometer = login.get_ceilometer_client()
     NO_SAMPLES = 1
-    #query = [dict(field='resource', op='eq', value=instance_id)]
+    # query = [dict(field='resource', op='eq', value=instance_id)]
     samples = ceilometer.samples.list(meter_name='power', limit=NO_SAMPLES)
     try:
         ts = int((datetime.datetime.strptime(
@@ -65,21 +66,21 @@ def save_environment(cons_id, ts, env, phase, actions=[]):
                 'insert into hypervisors(\
                             consolidation_id, hypervisor_id, cpu, cpu_util, capacity, memory_used,\
                             memory_capacity, power_consumption, phase, ip, no_vms, consolidation_ts,\
-			    consumption_idle, consumption_max)\
+                            consumption_idle, consumption_max)\
                             values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
                 (cons_id,
                  host["id"],
-                    host["cpu"],
-                    host["util"],
-                    host["capacity"],
-                    host["ram_used"],
-                    host["ram_capacity"],
-                    host["power_consumption"],
-                    phase,
-                    host["host_ip"],
-                    host["no_vms"],
-                    ts,
-                    host["consumption_idle"],
-                    host["consumption_max"]))
+                 host["cpu"],
+                 host["util"],
+                 host["capacity"],
+                 host["ram_used"],
+                 host["ram_capacity"],
+                 host["power_consumption"],
+                 phase,
+                 host["host_ip"],
+                 host["no_vms"],
+                 ts,
+                 host["consumption_idle"],
+                 host["consumption_max"]))
         db.commit()
         print "SAVED!"
