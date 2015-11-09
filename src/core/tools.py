@@ -1,6 +1,6 @@
-def search_dictionaries(key, value, list_of_dictionaries):
-    return [element for element in list_of_dictionaries if element[key] == value]
+def search_dictionaries(key, value, lod):
+    return [element for element in lod if element[key] == value]
 
 
-def sort_dictionaries(sort_key, list_of_dictionaries):
-    return sorted(list_of_dictionaries, key=lambda k: k[sort_key])
+def sort_dictionaries(sort_key, lod):
+    return sorted(lod, key=lambda k: k[sort_key])

@@ -15,7 +15,7 @@ def migrate_sim(vm, src_host, dest_host):
     dest_host["no_vms"] = dest_host["no_vms"] + 1
     dest_host["ram_used"] = dest_host["ram_used"] + vm["ram"]
     vm["host"] = dest_host["id"]
-    #vm["dest_host"] = dest_host["id"]
+    # vm["dest_host"] = dest_host["id"]
     # print vm["id"] + ": " + src_host["id"] + " -> " + dest_host["id"]
 
 

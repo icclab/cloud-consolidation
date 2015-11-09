@@ -48,7 +48,8 @@ def print_env_available_res_rel(env):
     for host in env["hosts"]:
         avail = host_mod.compute_pm_available_res(
             host) / host["capacity"] * 100
-        print host["id"] + " available relative value: " + str(avail) + "percent"
+        print("%s available relative value: %s percent" %
+              (host["id"], str(avail)))
 
 
 def get_environment():
@@ -123,7 +124,8 @@ def parse_environment(input_file_path):
 
 
 def create_random_environment(no_hosts, no_vms):
-    print "Generating random environment " + str(no_hosts) + " hosts, " + str(no_vms) + "vms."
+    print("Generating random environment with %s hosts, %s vms." %
+          (str(no_hosts), str(no_vms)))
     environment = {}
     vms = []
     hypervisors = []
@@ -145,11 +147,8 @@ def create_random_environment(no_hosts, no_vms):
         server_host = "pm" + str(randint(0, no_hosts - 1))
         vms.append({"id": "vm" + str(i),
                     "util": server_util,
-                    #"util":100,
                     "host": server_host,
-                    #"host":"0",
                     "vcpus": server_vcpus,
-                    #"vcpus":8,
                     "ram": server_vcpus * 1024,
                     "util_abs": server_util_abs})
     # print vms, hypervisors

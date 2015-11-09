@@ -15,17 +15,17 @@ def consolidate(env):
         sorted_vms_on_host_dsc = reversed(
             tools_mod.sort_dictionaries(
                 "util_abs", vms_on_host))
-        turn_off = True
         # going through the vms on host
         for vm in sorted_vms_on_host_dsc:
-            new_host_found = False
             dsc = number_of_hosts - 1
             # searching for a new host for a VM
             for dest_host in reversed(sorted_hosts):
                 if asc < dsc:
                     # found suitable host
-                    if dest_host["util"] + vm["util_abs"] <= dest_host["capacity"] and \
-                       dest_host["ram_used"] + vm["ram"] <= dest_host["ram_capacity"]:
+                    if(dest_host["util"] + vm["util_abs"] <=
+                            dest_host["capacity"] and
+                       dest_host["ram_used"] + vm["ram"] <=
+                            dest_host["ram_capacity"]):
                         mig_mod.migrate_sim(vm, host, dest_host)
                         actions.append({"action": "live-migrate",
                                         "vm_id": vm["id"],
@@ -63,8 +63,10 @@ def split(env):
                 # print "sorted host len: " + str(len(sorted_hosts))
                 for dest_host in reversed(sorted_hosts):
                     # print "dest host: " + dest_host["id"]
-                    if dest_host["util"] + vm["util_abs"] <= dest_host["capacity"] and \
-                       dest_host["ram_used"] + vm["ram"] <= dest_host["ram_capacity"]:
+                    if(dest_host["util"] + vm["util_abs"] <=
+                            dest_host["capacity"] and
+                       dest_host["ram_used"] + vm["ram"] <=
+                            dest_host["ram_capacity"]):
                         # print "dest host fits: " + dest_host["id"]
                         mig_mod.migrate_sim(vm, host, dest_host)
                         actions.append({"action": "live-migrate",

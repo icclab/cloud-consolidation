@@ -5,15 +5,16 @@ import os
 
 def consumption_function_linear(host):
     if host["no_vms"] > 0:
-        return host["consumption_idle"] + ((host["consumption_max"] - host[
-                                           "consumption_idle"]) * host["util"] / host["capacity"])
+        return (host["consumption_idle"] +
+                ((host["consumption_max"] - host["consumption_idle"]) *
+                 host["util"] / host["capacity"]))
     else:
         return 0.0
 
 
 def compute_pm_consumption(hosts):
-    #vms = env["vms"]
-    #hosts = env["hosts"]
+    # vms = env["vms"]
+    # hosts = env["hosts"]
     for host in hosts:
         host["power_consumption"] = consumption_function_linear(host)
 
@@ -78,7 +79,7 @@ def get_hypervisors():
         hypervisor_ram_used = 0.0
         hypervisor_vcpus = hypervisor._info["vcpus"]
         hypervisor_ram = hypervisor._info["memory_mb"]
-        #hypervisor_state = hypervisor._info["state"]
+        # hypervisor_state = hypervisor._info["state"]
         hypervisor_host_ip = hypervisor._info["host_ip"]
         hypervisor_pc = 0.0
         consumption_idle = 150.0
@@ -89,7 +90,7 @@ def get_hypervisors():
                             "capacity": hypervisor_vcpus * 100,
                             "ram_capacity": hypervisor_ram,
                             "ram_used": hypervisor_ram_used,
-                            #"state":hypervisor_state,
+                            # "state":hypervisor_state,
                             "host_ip": hypervisor_host_ip,
                             "power_consumption": hypervisor_pc,
                             "no_vms": hypervisor_running_vms,
@@ -103,6 +104,6 @@ def turn_off_host(host):
     os.system(cmd)
 
 
-def turn_on_host():
+def turn_on_host(host):
     cmd = 'etherwake -i em1 ' + host["mac"]
     os.system(cmd)

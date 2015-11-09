@@ -1,4 +1,3 @@
-import sys
 import dbops
 import environment as env_mod
 import host as host_mod
@@ -14,7 +13,8 @@ def main():
         nargs=1)
     parser.add_argument(
         '-r',
-        help='generates random environment with specified number of hosts [0] and VMs [1]',
+        help='generates random environment with \
+              specified number of hosts [0] and VMs [1]',
         nargs=2)
     args = parser.parse_args()
 
@@ -31,8 +31,8 @@ def main():
 
     print "----------------Environment---------------------------------"
     env_mod.print_env(env)
-    print "Environment Energy Consumption: " + str(env_mod.compute_env_consumption(env)) + "W"
-    print "\n"
+    print("Environment Energy Consumption: %s W" %
+          str(env_mod.compute_env_consumption(env)))
     print len(env_mod.get_unused_hypervisors(env))
     print len(env_mod.get_used_hypervisors(env))
     print host_mod.compute_pm_util_avg_rel(env)
@@ -46,8 +46,8 @@ def main():
     print "No migrations: " + str(len(actions))
     # mig_mod.print_actions(actions)
     # env_mod.print_env(env)
-    print "Environment Energy Consumption: " + str(env_mod.compute_env_consumption(env)) + "W"
-    print "\n"
+    print("Environment Energy Consumption: %s W" %
+          str(env_mod.compute_env_consumption(env)))
     print host_mod.compute_pm_util_avg_rel(env)
     print len(env_mod.get_unused_hypervisors(env))
     print len(env_mod.get_used_hypervisors(env))
@@ -61,8 +61,8 @@ def main():
     print "No migrations: " + str(len(actions))
     # mig_mod.print_actions(actions)
     # env_mod.print_env(env)
-    print "Environment Energy Consumption: " + str(env_mod.compute_env_consumption(env)) + "W"
-    print "\n"
+    print("Environment Energy Consumption: %s W" %
+          str(env_mod.compute_env_consumption(env)))
     print host_mod.compute_pm_util_avg_rel(env)
     print len(env_mod.get_unused_hypervisors(env))
     print len(env_mod.get_used_hypervisors(env))
