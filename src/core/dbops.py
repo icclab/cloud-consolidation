@@ -28,7 +28,7 @@ def get_ts_local():
     return calendar.timegm(time.gmtime())
 
 
-def save_cons_rec(ts, simulated=False):
+def save_cons_rec(ts, simulated=False, description=""):
     # init consolidation record
     ret = -1
     if(simulated):
@@ -41,9 +41,9 @@ def save_cons_rec(ts, simulated=False):
 
     with closing(sqlite3.connect(DATABASE)) as db:
         db.execute('insert into consolidations(timestamp,\
-                    username, url, tenant_name)\
-                    values(?, ?, ?, ?);', (
-            ts, username, url, tn,))
+                    username, url, tenant_name, description)\
+                    values(?, ?, ?, ?, ?);', (
+            ts, username, url, tn, description))
         db.commit()
         cur = db.execute('select max(id) from consolidations;')
         ret = cur.fetchone()[0]

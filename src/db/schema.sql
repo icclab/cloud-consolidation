@@ -14,7 +14,8 @@ create table consolidations (
   timestamp integer,
   username text,
   url text,
-  tenant_name text
+  tenant_name text,
+  description text
 );
 
 drop table if exists hypervisors;

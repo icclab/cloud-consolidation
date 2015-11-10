@@ -156,7 +156,7 @@ def get_energy_piedata(cons_id, phase):
 
 def get_timeline_data():
     consolidations = []
-    cur = g.db.execute('select id, timestamp, username\
+    cur = g.db.execute('select id, timestamp, username, description\
                             from consolidations;')
     cons_cur = cur.fetchall()
     for con_cur in cons_cur:
@@ -166,9 +166,9 @@ def get_timeline_data():
                 "start": datetime.datetime.fromtimestamp(
                     con_cur[1]).strftime('%Y-%m-%dT%H:%M:%S'),
                 "content": (
-                    "<a href=%s>%s</a>" %
+                    "<a href=%s>%s - %s</a>" %
                     (url_for("show", id=con_cur[0]),
-                        con_cur[2]))})
+                     con_cur[2], con_cur[3]))})
     return consolidations
 
 

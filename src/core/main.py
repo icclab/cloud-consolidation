@@ -20,13 +20,17 @@ def main():
 
     if args.r:
         env = env_mod.create_random_environment(int(args.r[0]), int(args.r[1]))
+        description = ("%s virtual machine and %s physical machines" %
+                       (args.r[1], args.r[0]))
     elif args.f:
         env = env_mod.parse_environment(args.f[0])
+        description = "input file: %s" % args.f[0]
     else:
         env = env_mod.get_environment()
+        description = "OpenStack"
 
     ts = dbops.get_ts_local()
-    cons_id = dbops.save_cons_rec(ts, True)
+    cons_id = dbops.save_cons_rec(ts, True, description)
     actions = []
 
     print "----------------Environment---------------------------------"
