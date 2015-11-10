@@ -1,6 +1,6 @@
 import json
 import sqlite3
-from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash, jsonify
+from flask import Flask, g, request, url_for, render_template
 import datetime
 
 DATABASE = '/tmp/lmt.db'
@@ -59,9 +59,12 @@ def get_actions(cons_id):
 
 def get_hypervisors(cons_id):
     hypervisors = []
-    cur = g.db.execute('select id, consolidation_id, hypervisor_id, cpu, cpu_util, capacity,\
-                            memory_used, memory_capacity, power_consumption, phase, ip, no_vms\
-                            from hypervisors where consolidation_id=?;', (cons_id,))
+    cur = g.db.execute('select id, consolidation_id, hypervisor_id,\
+                        cpu, cpu_util, capacity,\
+                        memory_used, memory_capacity,\
+                        power_consumption, phase, ip, no_vms\
+                        from hypervisors where consolidation_id=?;',
+                       (cons_id,))
     cons_cur = cur.fetchall()
     for con_cur in cons_cur:
         hypervisors.append({"id": con_cur[0],
@@ -86,9 +89,9 @@ def get_hypervisors_consumption(cons_id):
     data["cols"].append({"label": "phase", "type": "string"})
 
     cur = g.db.execute('select distinct(hypervisor_id) \
-			    from hypervisors \
-			    where consolidation_id=? \
-			    order by hypervisor_id;', (cons_id,))
+                from hypervisors \
+                where consolidation_id=? \
+                order by hypervisor_id;', (cons_id,))
     hypervisors = cur.fetchall()
     for hypervisor in hypervisors:
         data["cols"].append({"label": hypervisor[0], "type": "number"})
@@ -97,9 +100,9 @@ def get_hypervisors_consumption(cons_id):
 
     for phase in phases:
         cur = g.db.execute('select hypervisor_id, power_consumption \
-				from hypervisors \
-				where consolidation_id=? and phase=? \
-				order by hypervisor_id;', (cons_id, phase,))
+                from hypervisors \
+                where consolidation_id=? and phase=? \
+                order by hypervisor_id;', (cons_id, phase,))
         hypervisors = cur.fetchall()
 
         data["rows"].append({"c": []})
@@ -112,8 +115,8 @@ def get_hypervisors_consumption(cons_id):
 def get_energy_bardata(cons_id):
     bardata = {}
     cur = g.db.execute('select distinct(hypervisor_id) \
-			    from hypervisors \
-			    where consolidation_id=?;', (cons_id,))
+                from hypervisors \
+                where consolidation_id=?;', (cons_id,))
     hypervisors = cur.fetchall()
     for hypervisor in hypervisors:
         bardata[hypervisor[0]] = []
@@ -121,9 +124,9 @@ def get_energy_bardata(cons_id):
     phases = ["init", "cons"]
     for phase in phases:
         cur = g.db.execute('select hypervisor_id, power_consumption \
-				from hypervisors \
-				where consolidation_id=? and phase=? \
-				order by hypervisor_id;', (cons_id, phase,))
+                from hypervisors \
+                where consolidation_id=? and phase=? \
+                order by hypervisor_id;', (cons_id, phase,))
         hypervisors = cur.fetchall()
         for hypervisor in hypervisors:
             bardata[hypervisor[0]].append(hypervisor[1])
@@ -134,16 +137,16 @@ def get_energy_bardata(cons_id):
 def get_energy_piedata(cons_id, phase):
     piedata = {}
     cur = g.db.execute('select distinct(hypervisor_id) \
-			    from hypervisors \
-			    where consolidation_id=?;', (cons_id,))
+                from hypervisors \
+                where consolidation_id=?;', (cons_id,))
     hypervisors = cur.fetchall()
     for hypervisor in hypervisors:
         piedata[hypervisor[0]] = []
 
     cur = g.db.execute('select hypervisor_id, power_consumption \
-			    from hypervisors \
-			    where consolidation_id=? and phase=? \
-			    order by hypervisor_id;', (cons_id, phase,))
+                from hypervisors \
+                where consolidation_id=? and phase=? \
+                order by hypervisor_id;', (cons_id, phase,))
     hypervisors = cur.fetchall()
     for hypervisor in hypervisors:
         piedata[hypervisor[0]].append(hypervisor[1])
@@ -163,9 +166,8 @@ def get_timeline_data():
                 "start": datetime.datetime.fromtimestamp(
                     con_cur[1]).strftime('%Y-%m-%dT%H:%M:%S'),
                 "content": (
-                    "<a href=/show?id=%s>%s</a>" %
-                    (str(
-                        con_cur[0]),
+                    "<a href=%s>%s</a>" %
+                    (url_for("show", id=con_cur[0]),
                         con_cur[2]))})
     return consolidations
 
