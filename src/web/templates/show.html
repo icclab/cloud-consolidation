@@ -10,12 +10,6 @@
 <body>
 <div id="barchart"></div>
 <script>
-/*var bardata = {
-            host1: [30, 20],
-            host2: [200, 130],
-            host3: [300, 200]
-            }*/
-
 var bardata = {{ bardata|safe }}
 
 var hosts = d3.keys(bardata).map(function(d){ return d; });
