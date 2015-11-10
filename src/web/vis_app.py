@@ -163,7 +163,7 @@ def get_timeline_data():
                 "start": datetime.datetime.fromtimestamp(
                     con_cur[1]).strftime('%Y-%m-%dT%H:%M:%S'),
                 "content": (
-                    "<a href=http://0.0.0.0:5000/show?id=%s>%s</a>" %
+                    "<a href=/show?id=%s>%s</a>" %
                     (str(
                         con_cur[0]),
                         con_cur[2]))})
