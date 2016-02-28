@@ -2,7 +2,7 @@ import tools as tools_mod
 import migration as mig_mod
 
 
-def consolidate(env):
+def consolidate(env, cc=1.0):
     vms = env["vms"]
     hosts = env["hosts"]
     sorted_hosts = tools_mod.sort_dictionaries("util", hosts)
@@ -23,9 +23,9 @@ def consolidate(env):
                 if asc < dsc:
                     # found suitable host
                     if(dest_host["util"] + vm["util_abs"] <=
-                            dest_host["capacity"] and
+                            dest_host["capacity"] * cc and
                        dest_host["ram_used"] + vm["ram"] <=
-                            dest_host["ram_capacity"]):
+                            dest_host["ram_capacity"] * cc):
                         mig_mod.migrate_sim(vm, host, dest_host)
                         actions.append({"action": "live-migrate",
                                         "vm_id": vm["id"],
@@ -39,7 +39,7 @@ def consolidate(env):
     return actions
 
 
-def split(env):
+def split(env, cc=1.0):
     vms = env["vms"]
     hosts = env["hosts"]
     sorted_hosts = tools_mod.sort_dictionaries("util", hosts)
@@ -48,7 +48,7 @@ def split(env):
     actions = []
     for host in reversed(sorted_hosts):
         # print "host" + host["id"]
-        if host["util"] > host["capacity"]:
+        if host["util"] > host["capacity"] * cc:
             vms_on_host = tools_mod.search_dictionaries(
                 "host", host["id"], vms)
             sorted_vms_on_host = tools_mod.sort_dictionaries(
@@ -56,7 +56,7 @@ def split(env):
             for vm in sorted_vms_on_host:
                 # print len(sorted_vms_on_host)
                 # print host["util"]
-                if host["util"] <= host["capacity"]:
+                if host["util"] <= host["capacity"] * cc:
                     # print  "util: " + str(host["util"])
                     # print  "capacity " + str(host["capacity"])
                     break
